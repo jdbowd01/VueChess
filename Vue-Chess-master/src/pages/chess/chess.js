@@ -45,8 +45,71 @@ export default {
     },
     new960Game () {
       const chess = Chess()
-      chess.clear()
-      chess.put({type: 'q', color: 'b'}, 'a2')
+      chess.clear();
+
+      var freeSquares = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+      var freePieces = ['k', 'q', 'r1', 'r2', 'b', 'b', 'n', 'n'];
+      var shufflePieces = [];
+
+      for(var i = 0; i < 8; i++) {
+        var con = false;
+        var bSet = '';
+        while(!con) {
+          var randomPiece = Math.floor(Math.random() * (8-i));
+          if(freePieces[randomPiece] == 'r1') {
+            if(freePieces.includes('r2')) {
+              con = true;
+            }
+            else if(!freePieces.includes('k')) {
+              con = true;
+            }
+          }
+          else if(freePieces[randomPiece] == 'r2') {
+            if(freePieces.includes('r1')) {
+              con = true;
+            }
+            else if(!freePieces.includes('k')) {
+              con = true;
+            }
+          }
+          else if(freePieces[randomPiece] == 'k') {
+            if(!freePieces.includes('r1') || !freePieces.includes('r2')) {
+              con = true;
+            }
+          }
+          else if(freePieces[randomPiece] == 'b') {
+            console.log(bSet);
+            console.log(i);
+            if(bSet == '') {
+              con = true;
+              bSet = i;
+            }
+            else {
+              if(i == 7) {
+                shufflePieces.unshift(freePieces[randomPiece].charAt(0));
+              }
+              else {
+                if(bSet % 2 != i % 2) {
+                  con = true;
+                }
+              }
+            }
+          }
+          else {
+            con = true;
+          }
+          if(con) {
+            shufflePieces.push(freePieces[randomPiece].charAt(0));
+            freePieces.splice(randomPiece, 1);
+          }
+        }
+      }
+      for(var j = 0; j < 8; j++) {
+        chess.put({ type: shufflePieces[j], color: 'w'}, freeSquares[j] + 1)
+        chess.put({ type: shufflePieces[j], color: 'b'}, freeSquares[j] + 8)
+        chess.put({ type: 'p', color: 'w'}, freeSquares[j] + 2)
+        chess.put({ type: 'p', color: 'b'}, freeSquares[j] + 7)
+      }
       this.pgn = chess.pgn()
     },
     boardChange (pgn) {
