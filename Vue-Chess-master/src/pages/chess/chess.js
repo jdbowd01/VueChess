@@ -43,6 +43,12 @@ export default {
       const chess = Chess()
       this.pgn = chess.pgn()
     },
+    new960Game () {
+      const chess = Chess()
+      chess.clear()
+      chess.put({type: 'q', color: 'b'}, 'a2')
+      this.pgn = chess.pgn()
+    },
     boardChange (pgn) {
       this.pgn = pgn
 
@@ -77,6 +83,10 @@ export default {
     },
     reset () {
       const chess = this.newGame()
+      this.pgn = chess.pgn()
+    },
+    reset960 () {
+      const chess = this.new960Game();
       this.pgn = chess.pgn()
     }
   }

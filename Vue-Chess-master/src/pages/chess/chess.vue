@@ -2,8 +2,9 @@
   <div class="page-container">
     <chessboard class="chessboard" :iconDir="iconDir" :pgn="pgn" :side="side" v-on:change="boardChange($event)"></chessboard>
     <div class="controls">
-      <a class="button" v-on:click="randomMove()">Random</a>
-      <a class="button" v-on:click="reset()">Reset</a>
+      <a class="button" v-on:click="randomMove()">Random Move</a>
+      <a class="button" v-on:click="reset()">New Chess</a>
+      <a class="button" v-on:click="reset960()">New Chess960</a>
       <a class="button" v-on:click="swapSides()">Swap</a>
       <pre>{{ game.ascii() }}</pre>
       <chat></chat>
